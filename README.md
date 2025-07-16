@@ -29,16 +29,6 @@ Aplicação **fullstack** desenvolvida durante o **NLW Agents** da Rocketseat, c
 - **React Hook Form** + **Zod** para formulários
 - **Web APIs** para gravação de áudio no navegador
 
-## 📁 Estrutura do Repositório
-
-nlw-agents/
-├── server/ # Backend (API REST + transcrição + IA)
-└── web/ # Frontend (interface moderna e responsiva)
-
-markdown
-Copiar
-Editar
-
 ## 🚀 Fluxo de Uso
 
 1. **Crie uma sala**
