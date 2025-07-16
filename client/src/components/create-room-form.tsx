@@ -1,15 +1,15 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod/v4";
-
-import { Button } from "./ui/button";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod/v4'
+import { useCreateRoom } from '@/http/use-create-room'
+import { Button } from './ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from './ui/card'
 import {
   Form,
   FormControl,
@@ -17,32 +17,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { useCreateRoom } from "@/http/use-create-room";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/text-area";
+} from './ui/form'
+import { Input } from './ui/input'
+import { Textarea } from './ui/textarea'
 
 const createRoomSchema = z.object({
-  name: z.string().min(3, { message: "Inclua no mínimo 3 caracteres" }),
+  name: z.string().min(3, { message: 'Inclua no mínimo 3 caracteres' }),
   description: z.string(),
-});
+})
 
-type CreateRoomFormData = z.infer<typeof createRoomSchema>;
+type CreateRoomFormData = z.infer<typeof createRoomSchema>
 
 export function CreateRoomForm() {
-  const { mutateAsync: createRoom } = useCreateRoom();
+  const { mutateAsync: createRoom } = useCreateRoom()
 
   const createRoomForm = useForm<CreateRoomFormData>({
     resolver: zodResolver(createRoomSchema),
     defaultValues: {
-      name: "",
-      description: "",
+      name: '',
+      description: '',
     },
-  });
+  })
 
   async function handleCreateRoom({ name, description }: CreateRoomFormData) {
-    await createRoom({ name, description });
-    createRoomForm.reset();
+    await createRoom({ name, description })
+
+    createRoomForm.reset()
   }
 
   return (
@@ -50,7 +50,7 @@ export function CreateRoomForm() {
       <CardHeader>
         <CardTitle>Criar sala</CardTitle>
         <CardDescription>
-          Crie uma nova sala para começar a fazer perguntas e receber respostas
+          Crie uam nova sala para começar a fazer perguntas e receber respostas
           da I.A.
         </CardDescription>
       </CardHeader>
@@ -75,7 +75,7 @@ export function CreateRoomForm() {
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                );
+                )
               }}
             />
 
@@ -91,7 +91,7 @@ export function CreateRoomForm() {
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                );
+                )
               }}
             />
 
@@ -102,5 +102,5 @@ export function CreateRoomForm() {
         </Form>
       </CardContent>
     </Card>
-  );
+  )
 }

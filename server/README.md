@@ -1,30 +1,70 @@
-# NLW Agents
+# 🚀 server-project
 
-**Let me Ask** - Projeto desenvolvido durante o evento da **Rocketseat** para criação de uma aplicação web completa com sistema de salas e perguntas com IA.
+Projeto desenvolvido durante o NLW Agents, focado em processamento de áudios, transcrição, geração de embeddings e respostas automáticas utilizando IA generativa.
 
-Uma aplicação de perguntas e respostas com inteligência artificial, onde os usuários podem criar salas personalizadas, fazer perguntas e receber respostas geradas por IA.
+## ✨ Funcionalidades
 
-## 🚀 Tecnologias
+- 🎙️ Upload de áudios para transcrição automática
+- 📝 Geração de embeddings para busca semântica
+- 🤖 Respostas automáticas baseadas no conteúdo transcrito
+- 🏠 Organização por salas (rooms)
+- ❓ Cadastro e consulta de perguntas e respostas
 
-### Backend
+## 🛠️ Tecnologias Utilizadas
 
-- **Node.js** com TypeScript
-- **Fastify** - Framework web performático
-- **Drizzle ORM** - ORM type-safe para TypeScript
-- **PostgreSQL** com pgvector - Banco de dados com suporte a vetores
-- **Zod** - Validação de schemas
-- **Docker** - Containerização
+- ⚡ **Node.js**
+- 🔥 **Fastify** — Framework web rápido e eficiente
+- 🧬 **Drizzle ORM** — ORM para integração com PostgreSQL
+- 🐘 **PostgreSQL** — Banco de dados relacional
+- 🧪 **Zod** — Validação de esquemas
+- 🧩 **Google Gemini API** — IA generativa para transcrição e respostas
+- 🐳 **Docker** — Containerização do ambiente
 
-### Frontend
+## 📦 Estrutura Principal
 
-- **React 19** com TypeScript
-- **Vite** - Build tool moderno
-- **TailwindCSS 4** - Framework CSS utility-first
-- **React Router DOM** - Roteamento
-- **TanStack Query** - Gerenciamento de estado assíncrono
-- **React Hook Form** - Gerenciamento de formulários
-- **Shadcn/ui** - Sistema de componentes
-- **Lucide React** - Ícones
+- `src/db/` — Migrations, schemas e seed do banco
+- `src/http/routes/` — Rotas HTTP da API
+- `src/services/` — Integração com serviços externos (Gemini)
+
+## 📚 Rotas da API
+
+### Salas
+
+- `GET /rooms` — Lista todas as salas
+  - 🔍 Retorna nome, data de criação e quantidade de perguntas
+- `POST /rooms` — Cria uma nova sala
+  - 🏷️ Parâmetros: `name`, `description`
+
+### Áudio
+
+- `POST /rooms/:roomId/audio` — Faz upload de um áudio para uma sala
+  - 📎 Parâmetro: arquivo de áudio (multipart)
+  - 🔄 Transcreve e armazena o texto e embeddings
+
+### Perguntas
+
+- `POST /rooms/:roomId/questions` — Cria uma pergunta para uma sala
+  - ❓ Parâmetro: `question`
+  - 🤖 Retorna resposta automática baseada no conteúdo da sala
+- `GET /rooms/:roomId/questions` — Lista perguntas e respostas de uma sala
+
+### Healthcheck
+
+- `GET /health` — Verifica se o servidor está online
+
+## 🔄 Fluxo de Uso
+
+1. Crie uma sala (`POST /rooms`)
+2. Faça upload de áudios para a sala (`POST /rooms/:roomId/audio`)
+3. Cadastre perguntas para a sala (`POST /rooms/:roomId/questions`)
+4. Consulte perguntas e respostas (`GET /rooms/:roomId/questions`)
+
+## 📝 Observações
+
+- É necessário configurar as variáveis de ambiente, incluindo a chave da API Gemini e a URL do banco PostgreSQL.
+- O projeto utiliza Docker para facilitar o setup do banco de dados.
+
+---
 
 ## 📋 Pré-requisitos
 
@@ -48,28 +88,21 @@ cd server
 npm install
 ```
 
-### 3. Configure o frontend
-
-```bash
-cd web
-npm install
-```
-
-### 4. Configure o banco de dados
+### 3. Configure o banco de dados
 
 ```bash
 cd server
 docker-compose up -d
 ```
 
-### 5. Execute as migrações
+### 4. Execute as migrações
 
 ```bash
 cd server
 make migrate
 ```
 
-### 6. Popule o banco (opcional)
+### 5. Popule o banco (opcional)
 
 ```bash
 cd server
@@ -85,16 +118,8 @@ cd server
 make dev
 ```
 
-### Frontend
-
-```bash
-cd web
-npm run dev
-```
-
 A aplicação estará disponível em:
 
-- **Frontend**: http://localhost:5173
 - **Backend**: http://localhost:3333
 
 ## 📁 Estrutura do Projeto
@@ -188,15 +213,6 @@ make studio         # Abre Drizzle Studio
 make format         # Formata código
 ```
 
-### Frontend
-
-```bash
-npm run dev         # Servidor de desenvolvimento
-npm run build       # Build para produção
-npm run preview     # Preview da build
-make format         # Formata código
-```
-
 ## 🔧 Configuração do Ambiente
 
 ### Variáveis de Ambiente (Backend)
@@ -216,42 +232,3 @@ O projeto utiliza PostgreSQL com a extensão pgvector para suporte a vetores de 
 - **Senha**: `docker`
 - **Database**: `agents`
 - **Porta**: `5432`
-
-## 🎨 Design System
-
-### Componentes UI
-
-- **Shadcn/ui** com tema personalizado
-- **Radix UI** como base primitiva
-- **Tailwind CSS** para estilização
-- **Lucide React** para ícones consistentes
-
-### Tema e Cores
-
-- **Tema dark** por padrão
-- **Paleta**: Zinc como cor base
-- **Tipografia**: Sistema de fontes otimizado
-- **Espacamento**: Grid system do Tailwind
-
-## 📱 Páginas da Aplicação
-
-### 🏠 Página Inicial (`/`)
-
-- **Grid layout** com duas colunas
-- **Formulário de criação** de salas (esquerda)
-- **Lista de salas** recentes (direita)
-- **Navegação rápida** para salas existentes
-
-### 🎯 Página da Sala (`/room/:roomId`)
-
-- **Header** com navegação e botão de áudio
-- **Formulário de perguntas** com validação
-- **Lista de perguntas** e respostas
-- **Estados de carregamento** para IA
-
-## 🔄 Fluxo de Dados
-
-1. **Criação de sala**: Form → API → Database → Atualização da lista
-2. **Listagem**: Cache TanStack Query → Renderização otimizada
-3. **Perguntas**: Validação → API → Database → Interface de resposta
-4. **Navegação**: React Router → Lazy loading → SEO otimizado
